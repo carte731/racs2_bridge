@@ -85,6 +85,67 @@ int32 BRIDGE_LIB_Function(void)
     return CFE_SUCCESS;
 }
 
-racs2_user_msg_t ROS_Publish(char* topic, char* parameters){
+racs2_user_msg_t ROS_Publish(char* topic, char* topicData){
+    // VARIABLES
+    // Input topicData length
+    int len;
 
+    // Data buffer for ProtoBuff message contents
+    void *buffer;
+
+    // Creating the message to return to requesting app
+    racs2_user_msg_t RACS2_cFSMsg_outerShell;
+
+    // Creating message that will contain Protobuff data for ROS
+    RACS2BridgeStdMsgs *RACS2_ProtoBuffMsg_innerShell;
+
+    // DECLARATIONS
+    // Plus 1 due to strlen() not counting NULL terminator
+    len = strlen(topicData) + 1;
+
+    // Creating space for protobuff Message
+    RACS2_ProtoBuffMsg_innerShell = (RACS2BridgeStdMsgs *) malloc(sizeof(RACS2BridgeStdMsgs));
+
+    // Initializing memory space for ProtoBuff message packing
+    racs2_bridge_std_msgs__init(RACS2_ProtoBuffMsg_innerShell);
+
+    // Creating space for the internal message in the Protobuff message
+    RACS2_ProtoBuffMsg_innerShell->string_data = (char *) malloc(sizeof(char * len));
+
+    // SETTING UP PROTOBUFF INTERNAL MESSAGE
+    // Shallow-copying the input ROS2 topic to the cFS message portion (outer cFS message shell)
+    strcpy(RACS2_cFSMsg_outerShell.ros2_topic_name, topic);
+
+    // Deep-copying the topic data from parameters to the internal ProtoBuff message
+    strncpy(RACS2_ProtoBuffMsg_innerShell->string_data, topicData, len);
+
+    // Reassigning 'len' to get the new total length of the packed ProtoBuff message
+    len = racs2_bridge_std_msgs__get_packed_size(RACS2_ProtoBuffMsg_innerShell);
+
+    // Prepping the buffer to copy the ProtoBuff data over to it 
+    buffer = malloc(len);
+
+    // Copies and packs the internal ProtoBuff message into the buffer space
+    racs2_bridge_std_msgs__pack(RACS2_ProtoBuffMsg_innerShell, buffer);
+
+    // COPYING AND PACKING PROTOBUFF MESSAGE INTO cFS MESSAGE
+    // Declaring space to ensure deep-copy of ProtoBuff data to cFS body data
+    RACS2_cFSMsg_outerShell.body_data =  (uint8 *) malloc(sizeof(uint8 * len));
+
+    // Copying the buffer space containing the ProtoBuff message to cFS message data space
+    strncpy(RACS2_cFSMsg_outerShell.body_data, buffer, len);
+
+    // Specifying the length of the internal ProtoBuff massage
+    RACS2_cFSMsg_outerShell.body_data_length = len;
+
+    // CLEAN-UP
+    // Freeing up memory from malloc() call to create interShell ProtoBuff message
+    free(RACS2_ProtoBuffMsg_innerShell->string_data);
+    free(RACS2_ProtoBuffMsg_innerShell);
+
+    // Freeing up memory from buffer used to transfer data to cFS message
+    free(buffer);
+    
+    // Return cFS message to requesting app
+    return(RACS2_cFSMsg_outerShell);
 }

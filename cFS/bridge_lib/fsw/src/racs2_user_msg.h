@@ -16,8 +16,4 @@ typedef struct
 
 }   OS_PACK racs2_user_msg_t;
 
-#define RACS2_BRIDGE_MID                0x1EFE
-#define RACS2_USER_MSG_LNGTH   sizeof ( racs2_user_msg_t )
-#define RACS2_BRIDGE_USER_LISTENER_LNGTH   sizeof ( racs2_user_msg_t )
-
 #endif /* _racs2_user_msg_h_ */
