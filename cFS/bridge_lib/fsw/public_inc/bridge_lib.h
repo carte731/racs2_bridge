@@ -20,13 +20,15 @@
  * \file
  *   Specification for the sample library functions.
  */
-#ifndef SAMPLE_LIB_H
-#define SAMPLE_LIB_H
+#ifndef BRIDGE_LIB_H
+#define BRIDGE_LIB_H
 
 /************************************************************************
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "racs2_user_msg.h"
+#include "RACS2Brdige_std_msgs.pb-c.h"
 
 /************************************************************************
 ** Type Definitions
@@ -52,10 +54,10 @@
 **
 **
 *************************************************************************/
-int32 SAMPLE_LIB_Init(void);
+int32 BRIDGE_LIB_Init(void);
 
 /************************************************************************/
-/** \brief Sample Lib Function
+/** \brief Bridge Lib Function
 **
 **  \par Description
 **        This is a sample function
@@ -67,6 +69,6 @@ int32 SAMPLE_LIB_Init(void);
 **
 **
 *************************************************************************/
-int32 SAMPLE_LIB_Function(void);
+int32 BRIDGE_LIB_Function(void);
 
 #endif

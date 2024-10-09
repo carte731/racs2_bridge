@@ -13,4 +13,7 @@ if (ENABLE_UNIT_TESTS)
   add_subdirectory(unit-test)
 endif (ENABLE_UNIT_TESTS)
 
-
+target_link_libraries(sample_talker
+  ${PROTOBUF_LIBRARY}
+  protobuf-c
+)

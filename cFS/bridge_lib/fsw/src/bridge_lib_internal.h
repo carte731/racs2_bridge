@@ -20,22 +20,25 @@
  * @file
  *  An example of an internal (private) header file for SAMPLE Lib
  */
-#ifndef SAMPLE_LIB_INTERNAL_H
-#define SAMPLE_LIB_INTERNAL_H
+#ifndef BRIDGE_LIB_INTERNAL_H
+#define BRIDGE_LIB_INTERNAL_H
 
 /* Include all external/public definitions */
-#include "sample_lib.h"
+#include "bridge_lib.h"
 
 /*************************************************************************
 ** Macro Definitions
 *************************************************************************/
 
-#define SAMPLE_LIB_BUFFER_SIZE 16
+#define BRIDGE_LIB_BUFFER_SIZE              16
+#define RACS2_BRIDGE_MID                    0x1EFE
+#define RACS2_USER_MSG_LNGTH                sizeof(racs2_user_msg_t)
+#define RACS2_BRIDGE_USER_LISTENER_LNGTH    sizeof(racs2_user_msg_t)
 
 /*************************************************************************
 ** Internal Data Structures
 *************************************************************************/
-extern char SAMPLE_LIB_Buffer[SAMPLE_LIB_BUFFER_SIZE];
+extern char BRIDGE_LIB_Buffer[BRIDGE_LIB_BUFFER_SIZE];
 
 /*************************************************************************
 ** Function Declarations
@@ -44,6 +47,6 @@ extern char SAMPLE_LIB_Buffer[SAMPLE_LIB_BUFFER_SIZE];
 /**
  * Library initialization routine/entry point
  */
-int32 SAMPLE_LIB_Init(void);
+int32 BRIDGE_LIB_Init(void);
 
 #endif

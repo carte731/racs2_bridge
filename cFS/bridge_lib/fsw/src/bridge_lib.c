@@ -24,8 +24,8 @@
 /*************************************************************************
 ** Includes
 *************************************************************************/
-#include "sample_lib_version.h"
-#include "sample_lib_internal.h"
+#include "bridge_lib_version.h"
+#include "bridge_lib_internal.h"
 
 #include "cfe_config.h"
 
@@ -35,7 +35,7 @@
 /*************************************************************************
 ** Private Data Structures
 *************************************************************************/
-char SAMPLE_LIB_Buffer[SAMPLE_LIB_BUFFER_SIZE];
+char BRIDGE_LIB_Buffer[BRIDGE_LIB_BUFFER_SIZE];
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -43,9 +43,9 @@ char SAMPLE_LIB_Buffer[SAMPLE_LIB_BUFFER_SIZE];
 /* cFE requires that a library have an initialization routine      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 SAMPLE_LIB_Init(void)
+int32 BRIDGE_LIB_Init(void)
 {
-    char VersionString[SAMPLE_LIB_CFG_MAX_VERSION_STR_LEN];
+    char VersionString[BRIDGE_LIB_CFG_MAX_VERSION_STR_LEN];
 
     /*
      * Call a C library function, like strcpy(), and test its result.
@@ -57,16 +57,16 @@ int32 SAMPLE_LIB_Init(void)
      * the pointer to the destination buffer, so it should be impossible
      * for this to ever fail when linked with a compliant C library.
      */
-    if (strncpy(SAMPLE_LIB_Buffer, "SAMPLE DATA", sizeof(SAMPLE_LIB_Buffer) - 1) != SAMPLE_LIB_Buffer)
+    if (strncpy(BRIDGE_LIB_Buffer, "BRIDGE INIT DATA", sizeof(BRIDGE_LIB_Buffer) - 1) != BRIDGE_LIB_Buffer)
     {
         return CFE_STATUS_NOT_IMPLEMENTED;
     }
 
     /* ensure termination */
-    SAMPLE_LIB_Buffer[sizeof(SAMPLE_LIB_Buffer) - 1] = 0;
+    BRIDGE_LIB_Buffer[sizeof(BRIDGE_LIB_Buffer) - 1] = 0;
 
-    CFE_Config_GetVersionString(VersionString, SAMPLE_LIB_CFG_MAX_VERSION_STR_LEN, "Sample Lib",
-        SAMPLE_LIB_VERSION, SAMPLE_LIB_BUILD_CODENAME, SAMPLE_LIB_LAST_OFFICIAL);
+    CFE_Config_GetVersionString(VersionString, BRIDGE_LIB_CFG_MAX_VERSION_STR_LEN, "Bridge Lib",
+        BRIDGE_LIB_VERSION, BRIDGE_LIB_BUILD_CODENAME, BRIDGE_LIB_LAST_OFFICIAL);
 
     OS_printf("SAMPLE Lib Initialized.%s\n", VersionString);
 
@@ -78,9 +78,13 @@ int32 SAMPLE_LIB_Init(void)
 /* Sample Lib function                                             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 SAMPLE_LIB_Function(void)
+int32 BRIDGE_LIB_Function(void)
 {
-    OS_printf("SAMPLE_LIB_Function called, buffer=\'%s\'\n", SAMPLE_LIB_Buffer);
+    OS_printf("BRIDGE_LIB_Function called, buffer=\'%s\'\n", BRIDGE_LIB_Buffer);
 
     return CFE_SUCCESS;
+}
+
+racs2_user_msg_t ROS_Publish(char* topic, char* parameters){
+
 }

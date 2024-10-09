@@ -21,27 +21,27 @@
  *  The Sample Lib header file containing version information
  */
 
-#ifndef SAMPLE_LIB_VERSION_H
-#define SAMPLE_LIB_VERSION_H
+#ifndef BRIDGE_LIB_VERSION_H
+#define BRIDGE_LIB_VERSION_H
 
 /* Development Build Macro Definitions */
 
-#define SAMPLE_LIB_BUILD_NUMBER     2 /*!< Development Build: Number of commits since baseline */
-#define SAMPLE_LIB_BUILD_BASELINE   "equuleus-rc1" /*!< Development Build: git tag that is the base for the current development */
-#define SAMPLE_LIB_BUILD_DEV_CYCLE  "equuleus-rc2" /**< @brief Development: Release name for current development cycle */
-#define SAMPLE_LIB_BUILD_CODENAME   "Equuleus" /**< @brief: Development: Code name for the current build */
+#define BRIDGE_LIB_BUILD_NUMBER     2 /*!< Development Build: Number of commits since baseline */
+#define BRIDGE_LIB_BUILD_BASELINE   "equuleus-rc1" /*!< Development Build: git tag that is the base for the current development */
+#define BRIDGE_LIB_BUILD_DEV_CYCLE  "equuleus-rc2" /**< @brief Development: Release name for current development cycle */
+#define BRIDGE_LIB_BUILD_CODENAME   "Equuleus" /**< @brief: Development: Code name for the current build */
 
 /*
  * Version Macros, see \ref cfsversions for definitions.
  */
-#define SAMPLE_LIB_MAJOR_VERSION 1  /*!< @brief Major version number */
-#define SAMPLE_LIB_MINOR_VERSION 1  /*!< @brief Minor version number */
-#define SAMPLE_LIB_REVISION      0  /*!< @brief Revision version number. Value of 0 indicates a development version.*/
+#define BRIDGE_LIB_MAJOR_VERSION 1  /*!< @brief Major version number */
+#define BRIDGE_LIB_MINOR_VERSION 1  /*!< @brief Minor version number */
+#define BRIDGE_LIB_REVISION      0  /*!< @brief Revision version number. Value of 0 indicates a development version.*/
 
 /**
  * @brief Last official release.
  */
-#define SAMPLE_LIB_LAST_OFFICIAL "v1.1.0"
+#define BRIDGE_LIB_LAST_OFFICIAL "v1.1.0"
 
 /*!
  * @brief Mission revision.
@@ -57,27 +57,27 @@
  * Values 1-254 are reserved for mission use to denote patches/customizations as needed. NOTE: Reserving 0 and 0xFF for
  * cFS open-source development use (pending resolution of nasa/cFS#440)
  */
-#define SAMPLE_LIB_MISSION_REV 0xFF
+#define BRIDGE_LIB_MISSION_REV 0xFF
 
-#define SAMPLE_LIB_STR_HELPER(x) #x /*!< @brief Helper function to concatenate strings from integer macros */
-#define SAMPLE_LIB_STR(x) \
-    SAMPLE_LIB_STR_HELPER(x) /*!< @brief Helper function to concatenate strings from integer macros */
+#define BRIDGE_LIB_STR_HELPER(x) #x /*!< @brief Helper function to concatenate strings from integer macros */
+#define BRIDGE_LIB_STR(x) \
+    BRIDGE_LIB_STR_HELPER(x) /*!< @brief Helper function to concatenate strings from integer macros */
 
 /*! @brief Development Build Version Number.
  * @details Baseline git tag + Number of commits since baseline. @n
  * See @ref cfsversions for format differences between development and release versions.
  */
-#define SAMPLE_LIB_VERSION SAMPLE_LIB_BUILD_BASELINE "+dev" SAMPLE_LIB_STR(SAMPLE_LIB_BUILD_NUMBER)
+#define BRIDGE_LIB_VERSION BRIDGE_LIB_BUILD_BASELINE "+dev" BRIDGE_LIB_STR(BRIDGE_LIB_BUILD_NUMBER)
 
 /**
  * @brief Max Version String length.
  * 
- * Maximum length that a sample_lib version string can be.
+ * Maximum length that a Bridge-Lib version string can be.
  * 
  */
-#define SAMPLE_LIB_CFG_MAX_VERSION_STR_LEN 256
+#define BRIDGE_LIB_CFG_MAX_VERSION_STR_LEN 256
 
-#endif /* SAMPLE_LIB_VERSION_H */
+#endif /* BRIDGE_LIB_VERSION_H */
 
 /************************/
 /*  End of File Comment */
