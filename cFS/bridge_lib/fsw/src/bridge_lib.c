@@ -110,7 +110,7 @@ racs2_user_msg_t ROS_Publish(char* topic, char* topicData){
     racs2_bridge_std_msgs__init(RACS2_ProtoBuffMsg_innerShell);
 
     // Creating space for the internal message in the Protobuff message
-    RACS2_ProtoBuffMsg_innerShell->string_data = (char *) malloc(sizeof(char * len));
+    RACS2_ProtoBuffMsg_innerShell->string_data = (char *) malloc(sizeof(char * BODY_DATA_MAX_LNGTH));
 
     // SETTING UP PROTOBUFF INTERNAL MESSAGE
     // Shallow-copying the input ROS2 topic to the cFS message portion (outer cFS message shell)
