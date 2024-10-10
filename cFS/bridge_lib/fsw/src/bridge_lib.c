@@ -27,7 +27,7 @@
 #include "bridge_lib_version.h"
 #include "bridge_lib_internal.h"
 
-#include "cfe_config.h"
+//#include "cfe_config.h"
 
 /* for "strncpy()" */
 #include <string.h>
@@ -91,8 +91,9 @@ racs2_user_msg_t ROS_Publish(char* topic, char* topicData){
     int len;
 
     // Data buffer for ProtoBuff message contents
-    void *buffer;
-
+    //void *buffer;
+    uint8 *buffer;
+    
     // Creating the message to return to requesting app
     racs2_user_msg_t RACS2_cFSMsg_outerShell;
 
@@ -114,7 +115,7 @@ racs2_user_msg_t ROS_Publish(char* topic, char* topicData){
 
     // SETTING UP PROTOBUFF INTERNAL MESSAGE
     // Shallow-copying the input ROS2 topic to the cFS message portion (outer cFS message shell)
-    strcpy(RACS2_cFSMsg_outerShell.ros2_topic_name, topic);
+    //strcpy(RACS2_cFSMsg_outerShell.ros2_topic_name, topic);
 
     // Deep-copying the topic data from parameters to the internal ProtoBuff message
     strncpy(RACS2_ProtoBuffMsg_innerShell->string_data, topicData, len);
@@ -129,11 +130,22 @@ racs2_user_msg_t ROS_Publish(char* topic, char* topicData){
     racs2_bridge_std_msgs__pack(RACS2_ProtoBuffMsg_innerShell, buffer);
 
     // COPYING AND PACKING PROTOBUFF MESSAGE INTO cFS MESSAGE
+    // Deep-copying the input ROS2 topic to the cFS message portion (outer cFS message shell)
+    //strcpy(RACS2_cFSMsg_outerShell.ros2_topic_name, topic);
+    int itr;
+    int topicLen = strlen(topic) + 1;
+    for(itr = 0; itr < topicLen; itr++){
+        RACS2_cFSMsg_outerShell.ros2_topic_name[itr] = buffer[itr];
+    }
+
     // Declaring space to ensure deep-copy of ProtoBuff data to cFS body data
-    RACS2_cFSMsg_outerShell.body_data =  (uint8 *) malloc(sizeof(uint8 * len));
+    //RACS2_cFSMsg_outerShell.body_data =  (uint8 *) malloc(sizeof(uint8 * len));
+    for(itr = 0; itr < len; itr++){
+        RACS2_cFSMsg_outerShell.body_data[itr] = buffer[itr];
+    }
 
     // Copying the buffer space containing the ProtoBuff message to cFS message data space
-    strncpy(RACS2_cFSMsg_outerShell.body_data, buffer, len);
+    //strncpy(RACS2_cFSMsg_outerShell.body_data, buffer, len);
 
     // Specifying the length of the internal ProtoBuff massage
     RACS2_cFSMsg_outerShell.body_data_length = len;
