@@ -5,9 +5,10 @@ SHELL ["/bin/bash", "-c"]
 # Creating ROS2 workspace (ws)
 WORKDIR /root/ros2_ws
 
-## Copying the node and messages over
-COPY ./racs2_bridge/ROS2/Bridge/Server_Python/bridge_py_s /root/ros2_ws/src
-COPY ./Misc/ROS2Msg/msg /root/ros2_ws/src
+# Copying the node and messages over
+COPY ./ROS2/Bridge/Server_Python/bridge_py_s /root/ros2_ws/src
+COPY ./Misc/ROS2Msg /root/ros2_ws/src
+COPY ./Misc/ProtoBuffers /root/ros2_ws/src
 
 # Install general dependencies
 RUN apt-get update
