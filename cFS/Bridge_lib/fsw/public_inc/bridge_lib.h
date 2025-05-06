@@ -35,7 +35,7 @@
 #include <string.h>
 #include "racs2_user_msg.h"
 #include "bridge_lib_version.h"
-#include "RACS2Brdige_std_msgs.pb-c.h"
+#include "RACS2Bridge_std_msgs.pb-c.h"
 
 /************************************************************************
 ** Type Definitions
