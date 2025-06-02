@@ -39,13 +39,16 @@ class _BridgePyS(Node):
 
     # ROS2 Topic
     async def subscription_callback(self, aMsg):
-        # self.get_logger().info('Recv data')
-        bMessage = RACS2UserMsg()
-        bMessage.body_data = aMsg.body_data
-        # fill message id into header
-        msg_header = bytearray(32)
-        msg_header[0:2] = aMsg.cfs_message_id.to_bytes(2, 'big')
-        msg = msg_header+b''.join(aMsg.body_data)
+        # Creating protobuf message for serialization
+        proto_msg = RACS2Bridge_std_msgs()
+
+        # Transferring ROS2 message data over 
+        proto_msg.string_data = aMsg.body_data
+
+        # Creating outbound protobuf message
+        msg = proto_msg.SerializeToString()
+
+        self.get_logger().info("BRIDGE(S2C): Proto-Msg sent")
 
         global gWebSocket
         if gWebSocket is not None:

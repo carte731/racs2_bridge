@@ -5,7 +5,8 @@
 ** Type definition (user data format for racs2 bridge)
 */
 #define ROS2_TOPIC_NAME_LNGTH   32
-#define BODY_DATA_MAX_LNGTH   128
+//// CHANGED - CKC
+#define BODY_DATA_MAX_LNGTH   9000
 
 typedef struct
 {

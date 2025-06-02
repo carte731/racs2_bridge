@@ -79,23 +79,33 @@ static int callback_example( struct lws *wsi, enum lws_callback_reasons reason, 
                 // OS_printf("[Recv]: %s\n", (char*)in);
                 break;
             }
+
+            //// Removd and message-ID will be in the Protobuf message - CKC
             // Get message ID from header
-            uint16_t id_seg1 = ((uint8_t*)in)[0];
-            uint16_t id_seg2 = ((uint8_t*)in)[1];
-            uint16_t message_id = id_seg1 << 8 | id_seg2;
-            OS_printf("RACS2_BRIDGE_CLIENT: dest cFS message ID : 0x%x\n", message_id);
+            //uint16_t id_seg1 = ((uint8_t*)in)[0];
+            //uint16_t id_seg2 = ((uint8_t*)in)[1];
+            //uint16_t message_id = id_seg1 << 8 | id_seg2;
+            //OS_printf("RACS2_BRIDGE_CLIENT: dest cFS message ID : 0x%x\n", message_id);
             // if (is_new_msgid(message_id)) {
             //     // CFE_SB_InitMsg(&RACS2_UserMsgPkt, RACS2_BRIDGE_MID, RACS2_USER_MSG_LNGTH, false);
             //     CFE_SB_InitMsg(&RACS2_UserMsgPkt, message_id, RACS2_USER_MSG_LNGTH, true);
             //     OS_printf("RACS2_BRIDGE_CLIENT: CFE_SB_InitMsg for MsgId[%x]\n\n\n\n\n\n\n", message_id);
             // }
+
             CFE_SB_InitMsg(&RACS2_UserMsgPkt, message_id, RACS2_USER_MSG_LNGTH, true);
+
             // Set body data length
-            uint8_t body_data_length = len - RACS2_BRIDGE_HEADER_LENGTH;
-            RACS2_UserMsgPkt.body_data_length = body_data_length;
+            //// CHANGED - CKC
+            //uint8_t body_data_length = len - RACS2_BRIDGE_HEADER_LENGTH;
+            //RACS2_UserMsgPkt.body_data_length = body_data_length;
+            RACS2_UserMsgPkt.body_data_length = len;
             OS_printf("RACS2_BRIDGE_CLIENT: body data length : %d\n", body_data_length);
+
             // Copy body data
-            memcpy(RACS2_UserMsgPkt.body_data, (uint8_t*)in + RACS2_BRIDGE_HEADER_LENGTH, body_data_length);
+            //// CHANGED - CKC
+            //memcpy(RACS2_UserMsgPkt.body_data, (uint8_t*)in + RACS2_BRIDGE_HEADER_LENGTH, body_data_length);
+            memcpy(RACS2_UserMsgPkt.body_data, (uint8_t*)in, body_data_length);
+
             // Send message
             CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &RACS2_UserMsgPkt);
             int32 status = CFE_SB_SendMsg((CFE_SB_Msg_t *) &RACS2_UserMsgPkt);
