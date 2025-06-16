@@ -159,11 +159,13 @@ void SAMPLE_LISTENER_ProcessCommandPacket(void)
             OS_printf("SAMPLE_LISTENER: received sample message from talker, MID = [0x%x].\n",
                 MsgId
             );
-            char buffer[1024];
-            int len=tmpPtr->body_data_length;
 
+            //// WORKING IMPLEMENTATION ////
+            size_t len=tmpPtr->body_data_length;
             RACS2BridgeStdMsgs *message;
-            message = racs2_bridge_std_msgs__unpack(NULL, len, tmpPtr->body_data);
+            message = &tmpPtr->body_data;
+            //// WORKING IMPLEMENTATION END ////
+
             if (!message)
             {
                 OS_printf("SAMPLE_LISTENER: deserialization failed\n");

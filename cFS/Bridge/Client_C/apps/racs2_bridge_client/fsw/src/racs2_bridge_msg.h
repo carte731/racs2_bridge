@@ -5,7 +5,7 @@
 ** Type definition (websocket data format for racs2 bridge)
 */
 #define BRIDGE_HEADER_LNGTH   32
-#define BODY_DATA_MAX_LNGTH   128
+#define BODY_DATA_MAX_LNGTH   4000
 
 typedef struct
 {

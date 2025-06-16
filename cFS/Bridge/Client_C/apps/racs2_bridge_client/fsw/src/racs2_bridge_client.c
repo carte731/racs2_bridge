@@ -49,7 +49,7 @@ enum protocols
     PROTOCOL_COUNT
 };
 
-#define EXAMPLE_RX_BUFFER_BYTES (256)
+#define EXAMPLE_RX_BUFFER_BYTES (4000)
 #define RACS2_BRIDGE_HEADER_LENGTH 32
 #define RACS2_BRIDGE_DEST_MSGID_NUM 16
 uint8_t registerd_msgid_num = 0;
@@ -80,31 +80,28 @@ static int callback_example( struct lws *wsi, enum lws_callback_reasons reason, 
                 break;
             }
 
-            //// Removd and message-ID will be in the Protobuf message - CKC
-            // Get message ID from header
-            //uint16_t id_seg1 = ((uint8_t*)in)[0];
-            //uint16_t id_seg2 = ((uint8_t*)in)[1];
-            //uint16_t message_id = id_seg1 << 8 | id_seg2;
-            //OS_printf("RACS2_BRIDGE_CLIENT: dest cFS message ID : 0x%x\n", message_id);
-            // if (is_new_msgid(message_id)) {
-            //     // CFE_SB_InitMsg(&RACS2_UserMsgPkt, RACS2_BRIDGE_MID, RACS2_USER_MSG_LNGTH, false);
-            //     CFE_SB_InitMsg(&RACS2_UserMsgPkt, message_id, RACS2_USER_MSG_LNGTH, true);
-            //     OS_printf("RACS2_BRIDGE_CLIENT: CFE_SB_InitMsg for MsgId[%x]\n\n\n\n\n\n\n", message_id);
-            // }
+            //// WORKING IMPLEMENTATION ////
+            //// Hard-coded - will update protobuf message to contain ROS2/cFS-ID ////
+            uint16_t message_id = 0x1895;
 
             CFE_SB_InitMsg(&RACS2_UserMsgPkt, message_id, RACS2_USER_MSG_LNGTH, true);
+            //// Set body data length
+            uint8_t body_data_length = len;
+            RACS2_UserMsgPkt.body_data_length = body_data_length;
 
-            // Set body data length
-            //// CHANGED - CKC
-            //uint8_t body_data_length = len - RACS2_BRIDGE_HEADER_LENGTH;
-            //RACS2_UserMsgPkt.body_data_length = body_data_length;
-            RACS2_UserMsgPkt.body_data_length = len;
             OS_printf("RACS2_BRIDGE_CLIENT: body data length : %d\n", body_data_length);
+            RACS2BridgeStdMsgs *message;
+            message = racs2_bridge_std_msgs__unpack(NULL, len, (uint8_t*)in);
+            RACS2_UserMsgPkt.body_data = *message;
 
-            // Copy body data
-            //// CHANGED - CKC
-            //memcpy(RACS2_UserMsgPkt.body_data, (uint8_t*)in + RACS2_BRIDGE_HEADER_LENGTH, body_data_length);
-            memcpy(RACS2_UserMsgPkt.body_data, (uint8_t*)in, body_data_length);
+            if (!message)
+            {
+                OS_printf("Deserialization FAILED\n");
+                //break;
+            } else {
+                OS_printf("Deserialization SUCCESS!!!\n");
+            }
+            //// WORKING IMPLEMENTATION END ////
 
             // Send message
             CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &RACS2_UserMsgPkt);

@@ -8,4 +8,5 @@ uint32 body_data_length  # Body data size in byte
 # Note:
 #   - In Python: "byte" means bytes object
 #   - In C++   : "byte" means uint8_t type
-string[] body_data
+#byte[] body_data
+string body_data
